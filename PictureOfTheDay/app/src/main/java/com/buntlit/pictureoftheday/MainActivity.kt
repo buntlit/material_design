@@ -2,7 +2,7 @@ package com.buntlit.pictureoftheday
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.buntlit.pictureoftheday.ui.main.MainFragment
+import com.buntlit.pictureoftheday.ui.picture.PictureOfTheDayFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -11,7 +11,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, MainFragment.newInstance())
+                .replace(R.id.container, PictureOfTheDayFragment.newInstance())
                 .commitNow()
         }
     }

@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Picture of the Day</string>
+    <string name="picture_of_the_day_stub">Picture of the day</string>
+    <string name="search_wiki">Search in Wiki</string>
+    <string name="wiki_helper_text">Search term in Wiki</string>
+    <string name="favourite">Favourite</string>
+    <string name="settings">Settings</string>
+    <string name="search">Search</string>
 </resources>
