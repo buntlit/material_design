@@ -3,6 +3,7 @@ package com.buntlit.pictureoftheday.ui.picture
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.drawable.Drawable
+import android.icu.util.Calendar
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
@@ -18,6 +19,7 @@ import com.buntlit.pictureoftheday.databinding.FragmentPodBinding
 import com.buntlit.pictureoftheday.ui.clip.ChipsFragment
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import java.text.SimpleDateFormat
 
 class PictureOfTheDayFragment : Fragment() {
 
@@ -51,8 +53,11 @@ class PictureOfTheDayFragment : Fragment() {
                     Uri.parse("https://en.wikipedia.org/wiki/${binding?.inputEditText?.text?.toString()}")
             })
         }
-        viewModel.getData().observe(viewLifecycleOwner) { renderData(it) }
+        viewModel.getData().observe(viewLifecycleOwner) {
+            renderData(it)
+        }
         setBottomAppBar()
+        chipDaysBehavior()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -84,16 +89,19 @@ class PictureOfTheDayFragment : Fragment() {
             is PictureOfTheDayData.Success -> {
                 val serverResponseData = data.serverResponseData
                 val url = serverResponseData.url
+                val hdUrl = serverResponseData.hdurl
+                val title = serverResponseData.title
+                val description = serverResponseData.explanation
 
-                if (url.isNullOrEmpty()) {
+                if (url.isNullOrEmpty() && hdUrl.isNullOrEmpty()) {
                     toast("Link is empty")
                 } else {
-                    binding?.imageView?.load(url) {
-                        lifecycle(viewLifecycleOwner)
-                        error(R.drawable.ic_load_error_vector)
-                        placeholder(R.drawable.ic_no_photo_vector)
-                        crossfade(true)
-                    }
+                    binding?.hdChip?.isChecked = false
+                    loadImage(url!!)
+                    chipHDBehavior(url, hdUrl!!)
+                    binding?.bottomSheet?.bottomSheetDescriptionHeader?.text = title
+                    binding?.bottomSheet?.bottomSheetDescription?.text = description
+                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
                 }
             }
             is PictureOfTheDayData.Error -> {
@@ -105,32 +113,78 @@ class PictureOfTheDayFragment : Fragment() {
         }
     }
 
+    private fun loadImage(url: String) {
+        binding?.imageView?.load(url) {
+            lifecycle(viewLifecycleOwner)
+            error(R.drawable.ic_load_error_vector)
+            placeholder(R.drawable.ic_no_photo_vector)
+            crossfade(true)
+        }
+        binding?.hdChip?.visibility = View.VISIBLE
+    }
+
     private fun Fragment.toast(string: String?) {
         Toast.makeText(context, string, Toast.LENGTH_SHORT).show()
     }
 
     private fun setBottomSheetBehavior(bottomSheet: ConstraintLayout) {
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
         bottomSheetBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState) {
-                    BottomSheetBehavior.STATE_COLLAPSED -> toast("state collapsed")
-                    BottomSheetBehavior.STATE_DRAGGING -> toast("state dragging")
-                    BottomSheetBehavior.STATE_EXPANDED -> toast("state expanded")
-                    BottomSheetBehavior.STATE_HALF_EXPANDED -> toast("state half expended")
-                    BottomSheetBehavior.STATE_HIDDEN -> toast("state hidden")
-                    BottomSheetBehavior.STATE_SETTLING -> toast("state settling")
+                    BottomSheetBehavior.STATE_COLLAPSED -> {
+                        binding?.bottomSheet?.bottomSheetSlider?.visibility = View.VISIBLE
+                        binding?.bottomSheet?.bottomSheetDescription?.visibility = View.GONE
+                        binding?.bottomSheet?.bottomSheetDescriptionHeader?.visibility = View.GONE
+                    }
+                    BottomSheetBehavior.STATE_DRAGGING -> {
+                        binding?.bottomSheet?.bottomSheetSlider?.visibility = View.GONE
+                        binding?.bottomSheet?.bottomSheetDescription?.visibility = View.VISIBLE
+                        binding?.bottomSheet?.bottomSheetDescriptionHeader?.visibility = View.VISIBLE
+                    }
+//                    BottomSheetBehavior.STATE_EXPANDED -> toast("state expanded")
+//                    BottomSheetBehavior.STATE_HALF_EXPANDED -> toast("state half expended")
+//                    BottomSheetBehavior.STATE_HIDDEN -> toast("state hidden")
+//                    BottomSheetBehavior.STATE_SETTLING -> toast("state settling")
                 }
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                toast("on slide")
+//                toast("on slide")
             }
 
         })
+    }
+
+    private fun chipHDBehavior(url: String, hdUrl: String) {
+        binding?.hdChip?.setOnCheckedChangeListener { buttonView, isChecked ->
+            buttonView.visibility = View.GONE
+            if (isChecked) {
+                loadImage(hdUrl)
+            } else {
+                loadImage(url)
+            }
+        }
+    }
+
+    private fun chipDaysBehavior(){
+        binding?.chipGroupDays?.setOnCheckedStateChangeListener { group, checkedIds ->
+            when(group.checkedChipId){
+                R.id.chip_today -> viewModel.updateData("")
+                R.id.chip_yesterday -> viewModel.updateData(getDate())
+            }
+        }
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun getDate(): String{
+        val date = Calendar.getInstance()
+        date.add(Calendar.DATE, -1)
+        val sdf = SimpleDateFormat("yyyy-MM-dd")
+        return sdf.format(date.time)
     }
 
     private fun setBottomAppBar() {
@@ -146,11 +200,6 @@ class PictureOfTheDayFragment : Fragment() {
                     R.drawable.ic_back_fab,
                     R.menu.menu_bottom_bar_other_screen
                 )
-//                binding?.bottomAppBar?.navigationIcon = null
-//                binding?.bottomAppBar?.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
-//                binding?.fab?.setImageDrawable(
-//                    ContextCompat.getDrawable(context, R.drawable.ic_back_fab))
-//                binding?.bottomAppBar?.replaceMenu(R.menu.menu_bottom_bar_other_screen)
 
             } else {
                 fabChange(
@@ -159,12 +208,6 @@ class PictureOfTheDayFragment : Fragment() {
                     R.drawable.ic_plus_fab,
                     R.menu.menu_bottom_bar
                 )
-//                binding?.bottomAppBar?.navigationIcon =
-//                    ContextCompat.getDrawable(context, R.drawable.ic_hamburger_menu_bottom_bar)
-//                binding?.bottomAppBar?.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
-//                binding?.fab?.setImageDrawable(
-//                    ContextCompat.getDrawable(context, R.drawable.ic_plus_fab))
-//                binding?.bottomAppBar?.replaceMenu(R.menu.menu_bottom_bar)
             }
 
             isMain = !isMain

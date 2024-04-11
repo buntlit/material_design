@@ -29,9 +29,10 @@
                 app:endIconDrawable="@drawable/ic_wikipedia"
                 app:endIconMode="custom"
                 app:helperText="@string/wiki_helper_text"
-                app:layout_constraintBottom_toTopOf="@+id/image_view"
+
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/input_edit_text"
@@ -39,6 +40,32 @@
                     android:layout_height="wrap_content" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group_days"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/input_layout"
+                app:singleSelection="true"
+                app:selectionRequired="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_today"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:checked="true"
+                    android:text="@string/chip_today"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_yesterday"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:text="@string/chip_yesterday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </com.google.android.material.chip.ChipGroup>
 
 
             <com.buntlit.pictureoftheday.ui.view.EquilateralImageView
@@ -48,9 +75,24 @@
                 android:contentDescription="@string/picture_of_the_day_stub"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/chip_group_days"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_no_photo_vector" />
+                app:srcCompat="@drawable/ic_no_photo_vector">
+
+            </com.buntlit.pictureoftheday.ui.view.EquilateralImageView>
+
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:id="@+id/hd_chip"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                app:layout_constraintEnd_toEndOf="@+id/image_view"
+                app:layout_constraintTop_toTopOf="@+id/image_view"
+                app:chipIconVisible="true"
+                app:iconStartPadding="5dp"
+                app:chipIcon="@drawable/ic_hd_logo"
+                android:visibility="gone"
+                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
