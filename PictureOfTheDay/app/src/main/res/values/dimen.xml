@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="chip_hd_dimen">42dp</dimen>
+    <dimen name="chip_hd_icon_start_dimen">4dp</dimen>
+    <dimen name="fragment_pod_padding_dimen">10dp</dimen>
+    <dimen name="text_input_edit_corner_dimen">20dp</dimen>
+    <dimen name="bottom_sheet_padding_dimen">10dp</dimen>
+    <dimen name="bottom_sheet_line_width_dimen">25dp</dimen>
+    <dimen name="bottom_sheet_line_height_dimen">1dp</dimen>
+    <dimen name="bottom_sheet_margin_top_dimen">5dp</dimen>
+    <dimen name="bottom_sheet_behavior_peek_dimen">120dp</dimen>
+</resources>

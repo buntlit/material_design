@@ -172,10 +172,12 @@ class PictureOfTheDayFragment : Fragment() {
 
     private fun chipDaysBehavior(){
         binding?.chipGroupDays?.setOnCheckedStateChangeListener { group, checkedIds ->
+            var date = ""
             when(group.checkedChipId){
-                R.id.chip_today -> viewModel.updateData("")
-                R.id.chip_yesterday -> viewModel.updateData(getDate())
+                R.id.chip_today -> date = ""
+                R.id.chip_yesterday -> date = getDate()
             }
+            viewModel.updateData(date)
         }
     }
 

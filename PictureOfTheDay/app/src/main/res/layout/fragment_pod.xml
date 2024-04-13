@@ -2,6 +2,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="?attr/colorOnPrimary"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -13,13 +14,12 @@
             android:id="@+id/main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
+            android:paddingStart="@dimen/fragment_pod_padding_dimen"
+            android:paddingEnd="@dimen/fragment_pod_padding_dimen"
             tools:context=".ui.picture.PictureOfTheDayFragment">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_layout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/search_wiki"
@@ -84,12 +84,12 @@
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:id="@+id/hd_chip"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
+                android:layout_width="@dimen/chip_hd_dimen"
+                android:layout_height="@dimen/chip_hd_dimen"
                 app:layout_constraintEnd_toEndOf="@+id/image_view"
                 app:layout_constraintTop_toTopOf="@+id/image_view"
                 app:chipIconVisible="true"
-                app:iconStartPadding="5dp"
+                app:iconStartPadding="@dimen/chip_hd_icon_start_dimen"
                 app:chipIcon="@drawable/ic_hd_logo"
                 android:visibility="gone"
                 />
@@ -107,7 +107,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        app:backgroundTint="@color/design_default_color_primary"
+        app:backgroundTint="?attr/colorPrimary"
         app:fabAlignmentMode="center"
         app:hideOnScroll="true"
         app:layout_scrollFlags="scroll|enterAlways"
@@ -117,9 +117,7 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/design_default_color_error"
         app:layout_anchor="@id/bottom_app_bar"
-        app:srcCompat="@drawable/ic_plus_fab"
-        app:tint="#FFFFFF" />
+        app:srcCompat="@drawable/ic_plus_fab"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -9,4 +9,7 @@
     <string name="bottom_sheet_slider">Drag to see more info about image</string>
     <string name="chip_today">Today</string>
     <string name="chip_yesterday">Yesterday</string>
+    <string name="chip_theme_purple">Purple Theme</string>
+    <string name="chip_theme_indigo">Indigo Theme</string>
+    <string name="chip_theme_pink">Pink Theme</string>
 </resources>

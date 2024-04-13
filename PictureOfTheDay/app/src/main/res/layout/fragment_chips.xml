@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/design_default_color_on_primary"
+    android:background="?attr/colorOnPrimary"
     android:orientation="vertical">
 
     <LinearLayout
@@ -162,28 +162,33 @@
     </HorizontalScrollView>
 
     <com.google.android.material.chip.ChipGroup
-        android:id="@+id/chipGroup"
+        android:id="@+id/chipGroupTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:singleSelection="true">
+        app:singleSelection="true"
+        app:selectionRequired="true">
 
         <com.google.android.material.chip.Chip
+            android:id="@+id/chipThemePurple"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Choice A" />
+            android:checked="true"
+            android:text="@string/chip_theme_purple" />
 
         <com.google.android.material.chip.Chip
+            android:id="@+id/chipThemeIndigo"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Choice B" />
+            android:text="@string/chip_theme_indigo" />
 
         <com.google.android.material.chip.Chip
+            android:id="@+id/chipThemePink"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Choice C" />
+            android:text="@string/chip_theme_pink" />
     </com.google.android.material.chip.ChipGroup>
 
     <com.google.android.material.chip.Chip

@@ -12,5 +12,23 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="floatingActionButtonStyle">@style/FABRed</item>
+        <item name="textInputStyle">@style/TextInputEditTextRounded</item>
+    </style>
+
+    <style name="Theme.PictureOfTheDayIndigo" parent="Theme.PictureOfTheDay">
+        <item name="colorPrimary">@color/indigo_light</item>
+        <item name="colorPrimaryVariant">@color/indigo_dark</item>
+        <item name="colorSecondary">@color/indigo</item>
+        <item name="colorSecondaryVariant">@color/light_gray</item>
+        <item name="floatingActionButtonStyle">@style/FABYellow</item>
+    </style>
+
+    <style name="Theme.PictureOfTheDayPink" parent="Theme.PictureOfTheDay">
+        <item name="colorPrimary">@color/pink_light</item>
+        <item name="colorPrimaryVariant">@color/pink_dark</item>
+        <item name="colorSecondary">@color/pink</item>
+        <item name="colorSecondaryVariant">@color/light_gray</item>
+        <item name="floatingActionButtonStyle">@style/FABGreen</item>
     </style>
 </resources>
