@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.PictureOfTheDay" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.PictureOfTheDay" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -12,8 +12,16 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="colorAccent">@color/ferrari_red</item>
         <item name="floatingActionButtonStyle">@style/FABRed</item>
         <item name="textInputStyle">@style/TextInputEditTextRounded</item>
+        <item name="android:colorBackground">?attr/colorOnPrimary</item>
+        <item name="bottomNavigationStyle">@style/Widget.MaterialComponents.BottomNavigationView.Colored</item>
+        <item name="tabStyle">@style/Widget.MaterialComponents.TabLayout.Colored</item>
+        <item name="materialCardViewStyle">@style/CustomCardViewStyle</item>
+        <item name="android:navigationBarColor">?attr/colorPrimaryVariant</item>
+        <item name="actionBarStyle">@style/CustomActionBarColorStyle</item>
+        <item name="actionBarTheme">@style/CustomActionBarColorTheme</item>
     </style>
 
     <style name="Theme.PictureOfTheDayIndigo" parent="Theme.PictureOfTheDay">
@@ -22,6 +30,7 @@
         <item name="colorOnPrimary">@color/light_gray</item>
         <item name="colorSecondary">@color/indigo_light</item>
         <item name="colorSecondaryVariant">@color/green</item>
+        <item name="colorAccent">@color/ferrari_yellow</item>
         <item name="floatingActionButtonStyle">@style/FABYellow</item>
     </style>
 
@@ -31,6 +40,7 @@
         <item name="colorOnPrimary">@color/green</item>
         <item name="colorSecondary">@color/pink_light</item>
         <item name="colorSecondaryVariant">@color/light_gray</item>
+        <item name="colorAccent">@color/ferrari_green</item>
         <item name="floatingActionButtonStyle">@style/FABGreen</item>
     </style>
 
@@ -50,6 +60,23 @@
     <style name="TextInputEditTextRounded" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxCornerRadiusBottomEnd">@dimen/text_input_edit_corner_dimen</item>
         <item name="boxCornerRadiusTopStart">@dimen/text_input_edit_corner_dimen</item>
+        <item name="strokeColor">?attr/colorPrimary</item>
+<!--        <item name="boxStrokeColor">@color/stroke_color</item>-->
         <item name="cornerFamily">cut</item>
+    </style>
+
+    <style name="CustomCardViewStyle" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">?attr/colorOnPrimary</item>
+        <item name="strokeColor">?attr/colorAccent</item>
+        <item name="strokeWidth">@dimen/card_view_stroke_width</item>
+    </style>
+
+    <style name="CustomActionBarColorStyle" parent="Widget.MaterialComponents.ActionBar.Surface">
+        <item name="background">?attr/colorPrimary</item>
+    </style>
+
+    <style name="CustomActionBarColorTheme" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
+        <item name="android:textColorPrimary">?attr/colorOnPrimary</item>
+        <item name="iconTint">?attr/colorOnPrimary</item>
     </style>
 </resources>

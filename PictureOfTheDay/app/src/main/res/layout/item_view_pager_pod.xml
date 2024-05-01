@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.buntlit.pictureoftheday.ui.view.EquilateralImageView
+        android:id="@+id/image_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/hd_chip"
+        style="@style/Widget.MaterialComponents.Chip.Choice"
+        android:layout_width="@dimen/chip_hd_dimen"
+        android:layout_height="@dimen/chip_hd_dimen"
+        android:visibility="gone"
+        app:chipIcon="@drawable/ic_hd_logo"
+        app:chipIconTint="?attr/colorOnSecondary"
+        app:chipBackgroundColor="@android:color/transparent"
+        app:chipSurfaceColor="@android:color/transparent"
+        app:chipIconVisible="true"
+        app:iconStartPadding="@dimen/chip_hd_icon_start_dimen"
+        app:layout_constraintEnd_toEndOf="@+id/image_view"
+        app:layout_constraintTop_toTopOf="@+id/image_view" />
+
+    <WebView
+        android:id="@+id/web_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
+        app:layout_constraintDimensionRatio="H,16:16"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,8 +7,8 @@
         android:title="@string/favourite"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/app_bar_settings"
+        android:id="@+id/settings_fragment"
         android:icon="@drawable/ic_settings_menu"
-        android:title="@string/settings"
+        android:title="@string/frag_settings_stub"
         app:showAsAction="ifRoom" />
 </menu>

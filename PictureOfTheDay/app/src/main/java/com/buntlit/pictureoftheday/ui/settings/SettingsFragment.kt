@@ -1,18 +1,16 @@
-package com.buntlit.pictureoftheday.ui.clip
+package com.buntlit.pictureoftheday.ui.settings
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.buntlit.pictureoftheday.R
-import com.buntlit.pictureoftheday.databinding.FragmentChipsBinding
+import com.buntlit.pictureoftheday.databinding.FragmentSettingsBinding
 
-class ChipsFragment : Fragment() {
-    private var binding: FragmentChipsBinding? = null
-    private val viewModel: ChipViewModel by lazy {
-        ViewModelProvider(requireActivity())[ChipViewModel::class.java]
+class SettingsFragment : Fragment() {
+    private var binding: FragmentSettingsBinding? = null
+    private val viewModel: SettingsViewModel by lazy {
+        ViewModelProvider(requireActivity())[SettingsViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -20,8 +18,9 @@ class ChipsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentChipsBinding.inflate(inflater)
+        binding = FragmentSettingsBinding.inflate(inflater)
         setChipsThemeStatus()
+//        menuBehaviorFragment()
         return binding?.root
     }
 
@@ -43,7 +42,7 @@ class ChipsFragment : Fragment() {
     }
 
     private fun chipThemeBehavior() {
-        binding?.chipGroupTheme?.setOnCheckedStateChangeListener { group, checkedIds ->
+        binding?.chipGroupTheme?.setOnCheckedStateChangeListener { group, _ ->
             var themeId = 0
             when (group.checkedChipId) {
                 R.id.chipThemePurple -> themeId = R.style.Theme_PictureOfTheDay
@@ -53,4 +52,6 @@ class ChipsFragment : Fragment() {
             viewModel.setData(group.checkedChipId, themeId, true)
         }
     }
+
+
 }

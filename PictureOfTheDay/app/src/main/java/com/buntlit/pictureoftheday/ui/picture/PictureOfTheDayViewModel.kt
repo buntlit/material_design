@@ -10,19 +10,24 @@ import retrofit2.Response
 
 class PictureOfTheDayViewModel(
     private val liveDataForViewToObserve: MutableLiveData<PictureOfTheDayData> = MutableLiveData(),
-    private val retrofitImpl: PODRetrofitImpl = PODRetrofitImpl()
+    private val retrofitImpl: RetrofitImpl = RetrofitImpl(),
+    private val listOfTheDayData: MutableList<PODServerResponseData?> = MutableList(10) { null }
 ) : ViewModel() {
 
     fun getData(): LiveData<PictureOfTheDayData> {
-        sendServerRequest("")
         return liveDataForViewToObserve
     }
 
-    fun updateData(date: String) {
-        sendServerRequest(date)
+    fun getListOfData(): MutableList<PODServerResponseData?> {
+        return listOfTheDayData
     }
 
-    private fun sendServerRequest(date: String) {
+
+    fun updateData(date: String, position: Int) {
+        sendServerRequest(date, position)
+    }
+
+    private fun sendServerRequest(date: String, position: Int) {
         liveDataForViewToObserve.value = PictureOfTheDayData.Loading(null)
         val apiKey: String = BuildConfig.NASA_API_KEY
 
@@ -30,7 +35,7 @@ class PictureOfTheDayViewModel(
             liveDataForViewToObserve.value =
                 PictureOfTheDayData.Error(Throwable("You need API key"))
         } else {
-            retrofitImpl.getRetrofitImpl().getPictureOfTheDay(apiKey, date)
+            retrofitImpl.getPODRetrofitImpl().getPictureOfTheDay(apiKey, date)
                 .enqueue(object : Callback<PODServerResponseData> {
                     override fun onResponse(
                         call: Call<PODServerResponseData>,
@@ -39,6 +44,7 @@ class PictureOfTheDayViewModel(
                         if (response.isSuccessful && response.body() != null) {
                             liveDataForViewToObserve.value =
                                 PictureOfTheDayData.Success(response.body()!!)
+                            listOfTheDayData[position] = response.body()
                         } else {
                             val message = response.message()
                             if (message.isNullOrEmpty()) {

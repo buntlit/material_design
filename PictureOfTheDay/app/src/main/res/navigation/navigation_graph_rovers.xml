@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_graph_rovers"
+    app:startDestination="@id/rovers_fragment">
+
+    <fragment
+        android:id="@+id/rovers_fragment"
+        android:name="com.buntlit.pictureoftheday.ui.rover.RoversFragment"
+        android:label="@string/frag_rovers_stub"
+        tools:layout="@layout/fragment_rovers">
+        <action
+            android:id="@+id/action_rovers_fragment_to_rover_photo_fragment"
+            app:destination="@id/rover_photo_fragment">
+            <argument
+                android:name="title"
+                app:argType="string" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/rover_photo_fragment"
+        android:name="com.buntlit.pictureoftheday.ui.rover.RoverPhotoFragment"
+        android:label="{title}"
+        tools:layout="@layout/fragment_rover_photo">
+
+        <argument
+            android:name="title"
+            app:argType="string" />
+    </fragment>
+
+</navigation>

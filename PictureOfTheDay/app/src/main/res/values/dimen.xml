@@ -6,7 +6,9 @@
     <dimen name="text_input_edit_corner_dimen">20dp</dimen>
     <dimen name="bottom_sheet_padding_dimen">10dp</dimen>
     <dimen name="bottom_sheet_line_width_dimen">25dp</dimen>
-    <dimen name="bottom_sheet_line_height_dimen">1dp</dimen>
+    <dimen name="bottom_sheet_line_height_dimen">2dp</dimen>
     <dimen name="bottom_sheet_margin_top_dimen">5dp</dimen>
-    <dimen name="bottom_sheet_behavior_peek_dimen">120dp</dimen>
+    <dimen name="bottom_sheet_behavior_peek_dimen">40dp</dimen>
+    <dimen name="card_view_margin">4dp</dimen>
+    <dimen name="card_view_stroke_width">3dp</dimen>
 </resources>

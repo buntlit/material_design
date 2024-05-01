@@ -1,15 +1,16 @@
 <resources>
     <string name="app_name">Picture of the Day</string>
-    <string name="picture_of_the_day_stub">Picture of the day</string>
-    <string name="search_wiki">Search in Wiki</string>
-    <string name="wiki_helper_text">Search term in Wiki</string>
+    <string name="frag_picture_of_the_day_stub">Nasa API</string>
+    <string name="input_text_search_wiki_prompt">Search in Wiki</string>
+    <string name="input_edit_text_search_wiki_prompt">Search term in Wiki</string>
     <string name="favourite">Favourite</string>
-    <string name="settings">Settings</string>
-    <string name="search">Search</string>
+    <string name="frag_settings_stub">Settings</string>
+    <string name="frag_rovers_stub">Rovers</string>
     <string name="bottom_sheet_slider">Drag to see more info about image</string>
-    <string name="chip_today">Today</string>
-    <string name="chip_yesterday">Yesterday</string>
     <string name="chip_theme_purple">Purple Theme</string>
     <string name="chip_theme_indigo">Indigo Theme</string>
     <string name="chip_theme_pink">Pink Theme</string>
+    <string name="button_show_rover_photos">Show rover photos</string>
+    <string name="input_text_date_prompt">Enter date</string>
+    <string name="button_show_photos">Show photos</string>
 </resources>
