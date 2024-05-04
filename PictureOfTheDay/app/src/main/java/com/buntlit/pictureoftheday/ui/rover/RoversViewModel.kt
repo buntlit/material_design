@@ -116,7 +116,7 @@ class RoversViewModel(
         return liveDataCamerasAndPhotosToObserve
     }
 
-    fun updateRecyclerData(roverName: String, date: String) {
+    fun updatePhotosData(roverName: String, date: String) {
         map.values.clear()
         sendRoverPhotoRequest(roverName, date)
     }

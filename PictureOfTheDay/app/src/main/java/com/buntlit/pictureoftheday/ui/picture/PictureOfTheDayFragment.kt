@@ -48,7 +48,7 @@ class PictureOfTheDayFragment : Fragment() {
         binding?.inputLayout?.setEndIconOnClickListener {
             startActivity(Intent(Intent.ACTION_VIEW).apply {
                 data =
-                    Uri.parse("https://en.wikipedia.org/wiki/${binding?.inputEditText?.text?.toString()}")
+                    Uri.parse("https://en.wikipedia.org/wiki/${binding?.inputEditWikiResponse?.text?.toString()}")
             })
         }
         viewModel.getData().observe(viewLifecycleOwner) {

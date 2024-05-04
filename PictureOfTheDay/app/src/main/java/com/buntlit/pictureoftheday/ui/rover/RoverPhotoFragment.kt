@@ -59,7 +59,7 @@ class RoverPhotoFragment : Fragment() {
         DateMask(binding?.inputEditDate!!, maxDate.time, minDate.time)
 
         binding?.inputDateLayout?.setEndIconOnClickListener {
-            binding?.calendarLayout?.visibility = View.VISIBLE
+            binding?.groupCalendarAndRecycler?.visibility = View.VISIBLE
         }
 
         binding?.calendar?.setOnDateChangeListener { _, year, month, dayOfMonth ->
@@ -73,25 +73,13 @@ class RoverPhotoFragment : Fragment() {
             }
             binding?.inputEditDate?.setText(chooseDateString)
             binding?.inputEditDate?.setSelection(chooseDateString.length)
-            binding?.calendarLayout?.visibility = View.GONE
-            setResponsePhotos(
-                data.name.toString(), convertDateToSting(
-                    convertStringToDate(chooseDateString, formatterDateRU),
-                    formatterDateUS
-                )
-            )
+            showPhotos(data.name.toString(), chooseDateString, formatterDateRU, formatterDateUS)
         }
         binding?.showPhotos?.setOnClickListener {
             chooseDateString = binding?.inputEditDate?.text.toString()
             val cleanString = chooseDateString.replace("[^\\d.]|\\.".toRegex(), "")
             if (cleanString.length == 8) {
-                binding?.calendarLayout?.visibility = View.GONE
-                setResponsePhotos(
-                    data.name.toString(), convertDateToSting(
-                        convertStringToDate(chooseDateString, formatterDateRU),
-                        formatterDateUS
-                    )
-                )
+                showPhotos(data.name.toString(), chooseDateString, formatterDateRU, formatterDateUS)
             }
         }
     }
@@ -109,8 +97,22 @@ class RoverPhotoFragment : Fragment() {
     }
 
     private fun setResponsePhotos(roverName: String, date: String) {
-        viewModel.updateRecyclerData(roverName, date)
+        viewModel.updatePhotosData(roverName, date)
     }
 
-
+    private fun showPhotos(
+        roverName: String,
+        stringToConvert: String,
+        formatter1: String,
+        formatter2: String
+    ) {
+        binding?.calendarLayout?.visibility = View.GONE
+        binding?.recyclerRovers?.visibility = View.VISIBLE
+        setResponsePhotos(
+            roverName, convertDateToSting(
+                convertStringToDate(stringToConvert, formatter1),
+                formatter2
+            )
+        )
+    }
 }
