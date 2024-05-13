@@ -2,11 +2,13 @@ package com.buntlit.pictureoftheday.ui.rover
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.transition.*
 import com.buntlit.pictureoftheday.databinding.FragmentRoverPhotoBinding
 import com.buntlit.pictureoftheday.ui.view.DateMask
 import java.text.SimpleDateFormat
@@ -18,6 +20,7 @@ class RoverPhotoFragment : Fragment() {
     private val viewModel: RoversViewModel by lazy {
         ViewModelProvider(requireActivity())[RoversViewModel::class.java]
     }
+    private var isCalendarVisible = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,6 +41,12 @@ class RoverPhotoFragment : Fragment() {
         viewModel.getPhotosData().observe(viewLifecycleOwner) {
             adapter.updateList(it)
         }
+        TransitionManager.beginDelayedTransition(binding?.calendarLayout!!, TransitionSet().apply {
+            duration = 600
+            ordering = TransitionSet.ORDERING_TOGETHER
+            addTransition(ChangeBounds())
+            addTransition(Slide(Gravity.TOP))
+        })
 
     }
 
@@ -59,7 +68,8 @@ class RoverPhotoFragment : Fragment() {
         DateMask(binding?.inputEditDate!!, maxDate.time, minDate.time)
 
         binding?.inputDateLayout?.setEndIconOnClickListener {
-            binding?.groupCalendarAndRecycler?.visibility = View.VISIBLE
+            isCalendarVisible = !isCalendarVisible
+            calendarAppearanceDisappearance()
         }
 
         binding?.calendar?.setOnDateChangeListener { _, year, month, dayOfMonth ->
@@ -79,6 +89,7 @@ class RoverPhotoFragment : Fragment() {
             chooseDateString = binding?.inputEditDate?.text.toString()
             val cleanString = chooseDateString.replace("[^\\d.]|\\.".toRegex(), "")
             if (cleanString.length == 8) {
+                binding?.calendar
                 showPhotos(data.name.toString(), chooseDateString, formatterDateRU, formatterDateUS)
             }
         }
@@ -106,7 +117,9 @@ class RoverPhotoFragment : Fragment() {
         formatter1: String,
         formatter2: String
     ) {
-        binding?.calendarLayout?.visibility = View.GONE
+        binding?.groupCalendarAndRecycler?.visibility = View.VISIBLE
+        isCalendarVisible = false
+        calendarAppearanceDisappearance()
         binding?.recyclerRovers?.visibility = View.VISIBLE
         setResponsePhotos(
             roverName, convertDateToSting(
@@ -114,5 +127,16 @@ class RoverPhotoFragment : Fragment() {
                 formatter2
             )
         )
+    }
+
+    private fun calendarAppearanceDisappearance(){
+        binding?.calendarLayout?.visibility =
+            if (isCalendarVisible) View.VISIBLE else View.GONE
+        TransitionManager.beginDelayedTransition(binding?.root!!, TransitionSet().apply {
+            duration = 600
+            ordering = TransitionSet.ORDERING_SEQUENTIAL
+            addTransition(ChangeBounds())
+            addTransition(Fade())
+        })
     }
 }

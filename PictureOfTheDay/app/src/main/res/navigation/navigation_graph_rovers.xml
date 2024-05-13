@@ -12,7 +12,11 @@
         tools:layout="@layout/fragment_rovers">
         <action
             android:id="@+id/action_rovers_fragment_to_rover_photo_fragment"
-            app:destination="@id/rover_photo_fragment">
+            app:destination="@id/rover_photo_fragment"
+            app:enterAnim="@anim/slide_in_right_side"
+            app:popEnterAnim="@anim/slide_in_right_side"
+            app:exitAnim="@anim/slide_out_left_side"
+            app:popExitAnim="@anim/slide_out_left_side">
             <argument
                 android:name="title"
                 app:argType="string" />

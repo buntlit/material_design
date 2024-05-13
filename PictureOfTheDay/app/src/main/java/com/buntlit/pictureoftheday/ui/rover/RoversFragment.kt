@@ -6,6 +6,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.transition.ChangeBounds
+import androidx.transition.TransitionManager
+import androidx.transition.TransitionSet
 import com.buntlit.pictureoftheday.databinding.FragmentRoversBinding
 
 class RoversFragment : Fragment(), RoversRecyclerViewAdapter.OnButtonClickListener {
@@ -32,7 +35,6 @@ class RoversFragment : Fragment(), RoversRecyclerViewAdapter.OnButtonClickListen
         viewModel.getData().observe(viewLifecycleOwner) {
             renderData(it)
         }
-
     }
 
     override fun onDestroyView() {

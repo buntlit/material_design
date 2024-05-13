@@ -12,7 +12,11 @@
         tools:layout="@layout/fragment_pod" >
         <action
             android:id="@+id/action_pod_fragment_to_settings_fragment"
-            app:destination="@id/settings_fragment" />
+            app:destination="@id/settings_fragment"
+            app:enterAnim="@anim/slide_in_right_side"
+            app:popEnterAnim="@anim/slide_in_right_side"
+            app:exitAnim="@anim/slide_out_left_side"
+            app:popExitAnim="@anim/slide_out_left_side"/>
     </fragment>
 
     <fragment
