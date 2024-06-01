@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/app_bar_fav"
+        android:id="@+id/favorites_fragment"
         android:icon="@drawable/ic_favourite_menu"
         android:title="@string/favourite"
         app:showAsAction="ifRoom" />

@@ -20,7 +20,6 @@ class SettingsFragment : Fragment() {
     ): View? {
         binding = FragmentSettingsBinding.inflate(inflater)
         setChipsThemeStatus()
-//        menuBehaviorFragment()
         return binding?.root
     }
 
@@ -45,9 +44,9 @@ class SettingsFragment : Fragment() {
         binding?.chipGroupTheme?.setOnCheckedStateChangeListener { group, _ ->
             var themeId = 0
             when (group.checkedChipId) {
-                R.id.chipThemePurple -> themeId = R.style.Theme_PictureOfTheDay
-                R.id.chipThemeIndigo -> themeId = R.style.Theme_PictureOfTheDayIndigo
-                R.id.chipThemePink -> themeId = R.style.Theme_PictureOfTheDayPink
+                binding?.chipThemePurple!!.id -> themeId = R.style.Theme_PictureOfTheDay
+                binding?.chipThemeIndigo!!.id -> themeId = R.style.Theme_PictureOfTheDayIndigo
+                binding?.chipThemePink!!.id -> themeId = R.style.Theme_PictureOfTheDayPink
             }
             viewModel.setData(group.checkedChipId, themeId, true)
         }

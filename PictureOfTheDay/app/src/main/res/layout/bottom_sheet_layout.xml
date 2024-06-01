@@ -6,7 +6,7 @@
     android:id="@+id/bottom_sheet_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/ferrari_metallic"
+    android:background="?attr/colorOnPrimaryContainer"
     app:behavior_hideable="true"
     app:behavior_peekHeight="@dimen/bottom_sheet_behavior_peek_dimen"
     android:visibility="visible"

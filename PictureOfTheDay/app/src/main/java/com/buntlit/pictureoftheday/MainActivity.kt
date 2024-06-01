@@ -28,24 +28,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding?.root)
 
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.container) as NavHostFragment
-        navController = navHostFragment.navController
-        appBarConfiguration =
-            AppBarConfiguration(
-                setOf(
-                    R.id.navigation_graph_pod,
-                    R.id.navigation_graph_rovers
-                )
-            )
-        binding?.bottomNavigationView?.setupWithNavController(navController)
-        setupActionBarWithNavController(navController, appBarConfiguration)
-//        menuBehavior()
-//        bottomNavigationBehavior()
-
-        viewModel.getData().observe(this) {
-            settingTheme(it)
-        }
+        init()
     }
 
 //    private fun menuBehavior() {
@@ -76,6 +59,27 @@ class MainActivity : AppCompatActivity() {
 //
 //        })
 //    }
+
+    private fun init(){
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.container) as NavHostFragment
+        navController = navHostFragment.navController
+        appBarConfiguration =
+            AppBarConfiguration(
+                setOf(
+                    R.id.navigation_graph_pod,
+                    R.id.navigation_graph_rovers
+                )
+            )
+        binding?.bottomNavigationView?.setupWithNavController(navController)
+        setupActionBarWithNavController(navController, appBarConfiguration)
+//        menuBehavior()
+//        bottomNavigationBehavior()
+
+        viewModel.getData().observe(this) {
+            settingTheme(it)
+        }
+    }
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()

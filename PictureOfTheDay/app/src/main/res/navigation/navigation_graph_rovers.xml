@@ -14,8 +14,8 @@
             android:id="@+id/action_rovers_fragment_to_rover_photo_fragment"
             app:destination="@id/rover_photo_fragment"
             app:enterAnim="@anim/slide_in_right_side"
-            app:popEnterAnim="@anim/slide_in_right_side"
             app:exitAnim="@anim/slide_out_left_side"
+            app:popEnterAnim="@anim/slide_in_right_side"
             app:popExitAnim="@anim/slide_out_left_side">
             <argument
                 android:name="title"
@@ -32,6 +32,14 @@
         <argument
             android:name="title"
             app:argType="string" />
+        <action
+            android:id="@+id/action_rover_photo_fragment_to_rover_photo_scaled_fragment"
+            app:destination="@id/rover_photo_scaled_fragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/rover_photo_scaled_fragment"
+        android:name="com.buntlit.pictureoftheday.ui.rover.RoverPhotoScaledFragment"
+        tools:layout="@layout/fragment_scaled_images" />
 
 </navigation>

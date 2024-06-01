@@ -14,27 +14,25 @@
 
     <com.google.android.material.chip.Chip
         android:id="@+id/hd_chip"
-        style="@style/Widget.MaterialComponents.Chip.Choice"
-        android:layout_width="@dimen/chip_hd_dimen"
-        android:layout_height="@dimen/chip_hd_dimen"
-        android:visibility="gone"
-        app:chipIcon="@drawable/ic_hd_logo"
-        app:chipIconTint="?attr/colorOnSecondary"
-        app:chipBackgroundColor="@android:color/transparent"
-        app:chipSurfaceColor="@android:color/transparent"
-        app:chipIconVisible="true"
-        app:iconStartPadding="@dimen/chip_hd_icon_start_dimen"
+        style="@style/HDChip"
+        app:checkedIconEnabled="true"
         app:layout_constraintEnd_toEndOf="@+id/image_view"
         app:layout_constraintTop_toTopOf="@+id/image_view" />
 
-    <WebView
-        android:id="@+id/web_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+    <com.google.android.material.chip.Chip
+        android:id="@+id/liked_chip"
+        style="@style/LikeChipStyle"
+        app:checkedIconEnabled="true"
+        app:layout_constraintStart_toStartOf="@+id/image_view"
+        app:layout_constraintTop_toBottomOf="@+id/image_view" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_chips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:visibility="gone"
-        app:layout_constraintDimensionRatio="H,16:16"/>
+        app:constraint_referenced_ids="hd_chip, liked_chip"/>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

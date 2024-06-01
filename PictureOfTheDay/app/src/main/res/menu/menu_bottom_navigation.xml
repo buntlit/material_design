@@ -3,11 +3,11 @@
 
     <item
         android:id="@+id/navigation_graph_pod"
-        android:icon="@drawable/ic_archive"
-        android:title="To screen 1" />
+        android:icon="@drawable/ic_telescope"
+        android:title="@string/bottom_menu_pod" />
     <item
         android:id="@+id/navigation_graph_rovers"
-        android:icon="@drawable/ic_send"
-        android:title="To screen 2" />
+        android:icon="@drawable/ic_mars_rover"
+        android:title="@string/bottom_menu_rover" />
 
 </menu>

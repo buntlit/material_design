@@ -10,8 +10,8 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingStart="@dimen/fragment_pod_padding_dimen"
-        android:paddingEnd="@dimen/fragment_pod_padding_dimen">
+        android:paddingStart="@dimen/fragment_padding_dimen"
+        android:paddingEnd="@dimen/fragment_padding_dimen">
 
         <androidx.constraintlayout.motion.widget.MotionLayout
             android:id="@+id/motion_layout_pod"
@@ -67,7 +67,7 @@
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/view_pager"
-            android:layout_marginTop="@dimen/fragment_pod_padding_dimen"
+            android:layout_marginTop="@dimen/fragment_padding_dimen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"

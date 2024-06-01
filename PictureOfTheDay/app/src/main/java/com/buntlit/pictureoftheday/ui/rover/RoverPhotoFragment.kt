@@ -2,15 +2,22 @@ package com.buntlit.pictureoftheday.ui.rover
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.SharedElementCallback
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.transition.*
+import com.buntlit.pictureoftheday.R
 import com.buntlit.pictureoftheday.databinding.FragmentRoverPhotoBinding
 import com.buntlit.pictureoftheday.ui.view.DateMask
+import com.buntlit.pictureoftheday.ui.view.EquilateralImageView
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -21,6 +28,8 @@ class RoverPhotoFragment : Fragment() {
         ViewModelProvider(requireActivity())[RoversViewModel::class.java]
     }
     private var isCalendarVisible = false
+    private var savedAdapterPosition = 0
+    private val stateViewModel: SaveStateViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,25 +42,81 @@ class RoverPhotoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = RoverPhotoRecyclerViewAdapter()
-        binding?.recyclerRovers?.adapter = adapter
+
+        initView()
+
+    }
+
+    override fun onDestroyView() {
+        stateViewModel.saveStateRecycler(adapter.getListOfItemIsOpen())
+        stateViewModel.saveStateFragment(false)
+        stateViewModel.saveStateCalendar(isCalendarVisible)
+        binding = null
+        super.onDestroyView()
+    }
+
+    private fun initView(){
+
+        initRecyclerViewAndViewStates()
+
+        initViewVisibility()
+
         viewModel.getRoversData().observe(viewLifecycleOwner) {
             renderData(it)
         }
         viewModel.getPhotosData().observe(viewLifecycleOwner) {
-            adapter.updateList(it)
+            adapter.updateList(it, stateViewModel.getRecyclerIsOpens())
         }
-        TransitionManager.beginDelayedTransition(binding?.calendarLayout!!, TransitionSet().apply {
-            duration = 600
-            ordering = TransitionSet.ORDERING_TOGETHER
-            addTransition(ChangeBounds())
-            addTransition(Slide(Gravity.TOP))
-        })
+    }
+
+    private fun initRecyclerViewAndViewStates(){
+
+        var isFirstTimeOpen = true
+        var savedPhotoAdapterPosition = 0
+
+        if (stateViewModel.getFragmentIsFirstTime() != null) {
+            isFirstTimeOpen = stateViewModel.getFragmentIsFirstTime()!!
+            isCalendarVisible = stateViewModel.getCalendarIsOpen()!!
+            if (stateViewModel.getAdapterPosition() != null) {
+                savedAdapterPosition = stateViewModel.getAdapterPosition()!!
+                savedPhotoAdapterPosition = stateViewModel.getPhotosAdapterPosition()!!
+            }
+        }
+
+        adapter =
+            RoverPhotoRecyclerViewAdapter(
+                isFirstTimeOpen,
+                savedAdapterPosition,
+                savedPhotoAdapterPosition
+            ) { list, photoPosition, adapterPosition, imageView, holder ->
+                prepareTransitions(holder)
+                findNavController().navigate(
+                    RoverPhotoFragmentDirections.actionRoverPhotoFragmentToRoverPhotoScaledFragment()
+                        .apply {
+                            arguments.putStringArrayList("LIST", ArrayList(list))
+                            arguments.putInt("POSITION", photoPosition)
+                            stateViewModel.saveStateAdapter(adapterPosition)
+                            stateViewModel.saveStatePhotosAdapter(photoPosition)
+                        },
+                    FragmentNavigatorExtras(imageView to imageView.transitionName)
+                )
+            }
+
+        binding?.recyclerRovers?.adapter = adapter
+    }
+
+    private fun initViewVisibility() {
+
+        binding?.root?.doOnPreDraw {
+            binding?.calendarLayout?.visibility = if (isCalendarVisible) View.VISIBLE else View.GONE
+            binding?.recyclerRovers?.post {
+                binding?.recyclerRovers?.layoutManager?.scrollToPosition(savedAdapterPosition)
+            }
+        }
 
     }
 
     private fun renderData(data: RoversServerResponseDataItem) {
-        requireActivity().title = data.name
         val formatterDateUS = "yyyy-MM-dd"
         val formatterDateRU = "dd.MM.yyyy"
         val maxDate = convertStringToDate(data.maxDate!!, formatterDateUS)
@@ -117,10 +182,8 @@ class RoverPhotoFragment : Fragment() {
         formatter1: String,
         formatter2: String
     ) {
-        binding?.groupCalendarAndRecycler?.visibility = View.VISIBLE
         isCalendarVisible = false
         calendarAppearanceDisappearance()
-        binding?.recyclerRovers?.visibility = View.VISIBLE
         setResponsePhotos(
             roverName, convertDateToSting(
                 convertStringToDate(stringToConvert, formatter1),
@@ -129,7 +192,7 @@ class RoverPhotoFragment : Fragment() {
         )
     }
 
-    private fun calendarAppearanceDisappearance(){
+    private fun calendarAppearanceDisappearance() {
         binding?.calendarLayout?.visibility =
             if (isCalendarVisible) View.VISIBLE else View.GONE
         TransitionManager.beginDelayedTransition(binding?.root!!, TransitionSet().apply {
@@ -139,4 +202,21 @@ class RoverPhotoFragment : Fragment() {
             addTransition(Fade())
         })
     }
+
+    private fun prepareTransitions(holder: ViewHolder) {
+        exitTransition = TransitionInflater.from(requireContext())
+            .inflateTransition(R.transition.layout_exit_transition)
+
+        setExitSharedElementCallback(object : SharedElementCallback() {
+            override fun onMapSharedElements(
+                names: MutableList<String>,
+                sharedElements: MutableMap<String, View>
+            ) {
+                holder.itemView.findViewById<EquilateralImageView>(R.id.photo_image_view).let {
+                    sharedElements[names[0]] = it
+                }
+            }
+        })
+    }
+
 }

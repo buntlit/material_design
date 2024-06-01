@@ -17,6 +17,13 @@
             app:popEnterAnim="@anim/slide_in_right_side"
             app:exitAnim="@anim/slide_out_left_side"
             app:popExitAnim="@anim/slide_out_left_side"/>
+        <action
+            android:id="@+id/action_pod_fragment_to_favorites_fragment"
+            app:destination="@id/favorites_fragment"
+            app:enterAnim="@anim/slide_in_right_side"
+            app:popEnterAnim="@anim/slide_in_right_side"
+            app:exitAnim="@anim/slide_out_left_side"
+            app:popExitAnim="@anim/slide_out_left_side"/>
     </fragment>
 
     <fragment
@@ -24,6 +31,23 @@
         android:name="com.buntlit.pictureoftheday.ui.settings.SettingsFragment"
         android:label="@string/frag_settings_stub"
         tools:layout="@layout/fragment_settings" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/favorites_fragment"
+        android:name="com.buntlit.pictureoftheday.ui.favorite.FavoritesFragment"
+        android:label="@string/frag_favorites_stub"
+        tools:layout="@layout/fragment_favorites" >
+        <action
+            android:id="@+id/action_favorites_fragment_to_favorites_detail_info_fragment"
+            app:destination="@id/favorites_detail_info_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/favorites_detail_info_fragment"
+        android:name="com.buntlit.pictureoftheday.ui.favorite.FavoritesDetailInfoFragment"
+        android:label="@string/frag_favorites_stub"
+        tools:layout="@layout/fragment_favorites_detail_info" >
     </fragment>
 
 </navigation>

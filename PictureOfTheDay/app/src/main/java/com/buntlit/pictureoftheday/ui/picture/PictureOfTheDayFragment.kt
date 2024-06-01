@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.buntlit.pictureoftheday.R
 import com.buntlit.pictureoftheday.databinding.FragmentPodBinding
+import com.buntlit.pictureoftheday.ui.favorite.FavoritesViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.tabs.TabLayoutMediator
 import java.text.SimpleDateFormat
@@ -29,7 +30,14 @@ class PictureOfTheDayFragment : Fragment() {
     private val viewModel: PictureOfTheDayViewModel by lazy {
         ViewModelProvider(requireActivity())[PictureOfTheDayViewModel::class.java]
     }
+    private val viewModelDatabase: FavoritesViewModel by lazy {
+        ViewModelProvider(
+            requireActivity(),
+            ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
+        )[FavoritesViewModel::class.java]
+    }
     private lateinit var listOfTheDayData: List<PODServerResponseData?>
+    private lateinit var adapter: PODViewPager2Adapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,12 +45,22 @@ class PictureOfTheDayFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentPodBinding.inflate(inflater)
-        menuBehaviorFragment()
         return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        initView()
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
+    }
+
+    private fun initView(){
 
         binding?.bottomSheet?.bottomSheetContainer?.let { setBottomSheetBehavior(it) }
         binding?.inputLayout?.setEndIconOnClickListener {
@@ -54,14 +72,12 @@ class PictureOfTheDayFragment : Fragment() {
         viewModel.getData().observe(viewLifecycleOwner) {
             renderData(it)
         }
+
         listOfTheDayData = viewModel.getListOfData()
+
+        menuBehaviorFragment()
         viewPager2Behavior()
-    }
 
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
     }
 
     private fun menuBehaviorFragment() {
@@ -73,8 +89,9 @@ class PictureOfTheDayFragment : Fragment() {
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
-                    R.id.app_bar_fav -> {
-                        false
+                    R.id.favorites_fragment -> {
+                        findNavController().navigate(R.id.action_pod_fragment_to_favorites_fragment)
+                        true
                     }
                     R.id.settings_fragment -> {
                         findNavController().navigate(R.id.action_pod_fragment_to_settings_fragment)
@@ -91,7 +108,14 @@ class PictureOfTheDayFragment : Fragment() {
     private fun renderData(data: PictureOfTheDayData) {
         when (data) {
             is PictureOfTheDayData.Success -> {
+                viewModelDatabase.isItemLiked(data.serverResponseData)
                 renderDataSuccess(data.serverResponseData)
+
+                viewModelDatabase.getIsItemLikedData().observe(viewLifecycleOwner) {
+                    binding?.viewPager?.currentItem?.let { position ->
+                        adapter.updateLists(it != null, position)
+                    }
+                }
             }
             is PictureOfTheDayData.Error -> {
                 toast(data.error.message)
@@ -99,15 +123,13 @@ class PictureOfTheDayFragment : Fragment() {
             is PictureOfTheDayData.Loading -> {
 
             }
-        }
-        binding?.viewPager?.post {
-            binding?.viewPager?.currentItem?.let { binding?.viewPager?.adapter?.notifyItemChanged(it) }
+            else -> {}
         }
     }
 
     private fun renderDataSuccess(serverResponseData: PODServerResponseData) {
         val url = serverResponseData.url
-        val hdUrl = serverResponseData.hdurl
+        val hdUrl = serverResponseData.hdUrl
         val title = serverResponseData.title
         val description = serverResponseData.explanation
 
@@ -157,7 +179,12 @@ class PictureOfTheDayFragment : Fragment() {
     }
 
     private fun viewPager2Behavior() {
-        binding?.viewPager?.adapter = PODViewPager2Adapter(listOfTheDayData)
+        adapter = PODViewPager2Adapter(listOfTheDayData) { data, isSelected ->
+            if (isSelected) viewModelDatabase.insertToFavorite(data)
+            else viewModelDatabase.deleteFromFavorite(data)
+        }
+        binding?.viewPager?.offscreenPageLimit = listOfTheDayData.size
+        binding?.viewPager?.adapter = adapter
         binding?.tabLayout?.let { tabLayout ->
             binding?.viewPager?.let { viewPager2 ->
                 TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
@@ -172,14 +199,17 @@ class PictureOfTheDayFragment : Fragment() {
         binding?.viewPager?.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
                 if (listOfTheDayData[position] == null) {
                     viewModel.updateData(getDate(position), position)
                 } else {
-                    listOfTheDayData[position]?.let { renderDataSuccess(it) }
+                    listOfTheDayData[position]?.let {
+                        renderDataSuccess(it)
+                    }
                 }
+                super.onPageSelected(position)
             }
-        })
+        }
+        )
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -189,5 +219,4 @@ class PictureOfTheDayFragment : Fragment() {
         val sdf = SimpleDateFormat("yyyy-MM-dd")
         return sdf.format(date.time)
     }
-
 }

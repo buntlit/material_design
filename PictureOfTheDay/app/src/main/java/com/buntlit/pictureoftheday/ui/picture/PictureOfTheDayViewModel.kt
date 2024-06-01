@@ -1,9 +1,15 @@
 package com.buntlit.pictureoftheday.ui.picture
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.buntlit.pictureoftheday.BuildConfig
+import com.buntlit.pictureoftheday.ui.favorite.Database
+import com.buntlit.pictureoftheday.ui.favorite.FavoritesDAO
+import com.buntlit.pictureoftheday.ui.favorite.FavoritesRepository
+import com.buntlit.pictureoftheday.ui.favorite.RoomFavoritesPictures
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -12,7 +18,8 @@ class PictureOfTheDayViewModel(
     private val liveDataForViewToObserve: MutableLiveData<PictureOfTheDayData> = MutableLiveData(),
     private val retrofitImpl: RetrofitImpl = RetrofitImpl(),
     private val listOfTheDayData: MutableList<PODServerResponseData?> = MutableList(10) { null }
-) : ViewModel() {
+): ViewModel(){
+
 
     fun getData(): LiveData<PictureOfTheDayData> {
         return liveDataForViewToObserve

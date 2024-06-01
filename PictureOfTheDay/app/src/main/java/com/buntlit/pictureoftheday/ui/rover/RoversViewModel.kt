@@ -19,6 +19,7 @@ class RoversViewModel(
 
     private var map: MutableMap<RoverServerResponseDataItemCameras, MutableList<String>> =
         mutableMapOf()
+    private var oldDate = ""
 
     fun getData(): MutableLiveData<RoversData> {
         if (!liveDataRoversToObserve.isInitialized) {
@@ -99,7 +100,6 @@ class RoversViewModel(
 
                 })
         }
-//        liveDataCamerasAndPhotosToObserve.value = map
     }
 
 
@@ -117,8 +117,11 @@ class RoversViewModel(
     }
 
     fun updatePhotosData(roverName: String, date: String) {
-        map.values.clear()
-        sendRoverPhotoRequest(roverName, date)
+        if (date != oldDate) {
+            map.values.clear()
+            sendRoverPhotoRequest(roverName, date)
+        }
+        oldDate = date
     }
 
     private fun clearPhotosData() {

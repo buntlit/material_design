@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="chip_hd_dimen">42dp</dimen>
+    <dimen name="chip_icon_dimen">42dp</dimen>
     <dimen name="chip_hd_icon_start_dimen">4dp</dimen>
-    <dimen name="fragment_pod_padding_dimen">10dp</dimen>
+    <dimen name="fragment_padding_dimen">10dp</dimen>
     <dimen name="text_input_edit_corner_dimen">20dp</dimen>
     <dimen name="bottom_sheet_padding_dimen">10dp</dimen>
     <dimen name="bottom_sheet_line_width_dimen">25dp</dimen>
@@ -11,4 +11,5 @@
     <dimen name="bottom_sheet_behavior_peek_dimen">40dp</dimen>
     <dimen name="card_view_margin">4dp</dimen>
     <dimen name="card_view_stroke_width">3dp</dimen>
+    <dimen name="card_view_elevation">5dp</dimen>
 </resources>

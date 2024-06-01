@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Picture of the Day</string>
     <string name="frag_picture_of_the_day_stub">Nasa API</string>
     <string name="input_text_search_wiki_prompt">Search in Wiki</string>
@@ -13,4 +13,18 @@
     <string name="button_show_rover_photos">Show rover photos</string>
     <string name="input_text_date_prompt">Enter date</string>
     <string name="button_show_photos">Show photos</string>
+    <string name="frag_favorites_stub">Favorites</string>
+    <string name="sorted_stub">Sorted: </string>
+    <string name="chip_sort_default">Default</string>
+    <string name="chip_sort_date">By date</string>
+    <string name="chip_sort_name">By name</string>
+    <string name="chip_sort_type">By type</string>
+    <string name="no_added_stub">No one added yet…</string>
+    <string name="button_delete">delete</string>
+    <string name="media_author">"Author: %1$s"</string>
+    <string name="media_title">"Title: %1$s"</string>
+    <string name="media_date">"Date: %1$s"</string>
+    <string name="bottom_menu_pod">Picture of the Day</string>
+    <string name="bottom_menu_rover">Mars Rover Photo</string>
+    <string name="rovers_info" >Rover\'s status: %1$s\nRover\'s max date: %2$s\nRover\'s launch date: %3$s\nRover\'s landing date: %4$s\nRover\'s total photos: %5$s</string>
 </resources>
